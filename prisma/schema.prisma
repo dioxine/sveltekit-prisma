@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model autoparts {
+  id       Int            @id @default(autoincrement())
+  vcode    String         @db.VarChar(50)
+  name     String         @db.VarChar(255)
+  cond     autoparts_cond
+  image_id Int
+  images   images         @relation(fields: [image_id], references: [id], onUpdate: Restrict, map: "images_id_fkey")
+
+  @@index([image_id], map: "image_id")
+}
+
+model images {
+  id        Int         @id @default(autoincrement())
+  url1      String?     @db.VarChar(255)
+  url2      String?     @db.VarChar(255)
+  url3      String?     @db.VarChar(255)
+  url4      String?     @db.VarChar(255)
+  url5      String?     @db.VarChar(255)
+  url6      String?     @db.VarChar(255)
+  url7      String?     @db.VarChar(255)
+  url8      String?     @db.VarChar(255)
+  url9      String?     @db.VarChar(255)
+  autoparts autoparts[]
+}
+
+enum autoparts_cond {
+  new
+  used
+}
